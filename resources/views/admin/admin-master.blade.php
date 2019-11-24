@@ -15,7 +15,9 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
-  <!-- Google Font: Source Sans Pro -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
@@ -143,7 +145,7 @@
         <div class="container-fluid">
             <router-view></router-view>
         </div>
-      {{--<div class="card">
+      <div class="card">
         <div class="card-footer">
           <h3 class="card-title">Title</h3>
         </div>
@@ -155,13 +157,13 @@
           Footer
         </div>
         <!-- /.card-footer-->
-      </div>--}}
+      </div>
       <!-- /.card -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+    <example-component></example-component>
   <footer class="main-footer">
     <strong>Copyright &copy; 2019 </strong> All rights
     reserved.
@@ -174,6 +176,7 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<script src="{{ asset('js/app.js') }}" defer></script>
 
 <!-- jQuery -->
 <script src="{{asset('dist/js/plugins/jquery/jquery.min.js')}}"></script>

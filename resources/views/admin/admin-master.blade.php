@@ -83,8 +83,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
-                <router-link to="/dashboard" class="nav-link active">
-                    <i class="nav-icon fa fa-dashboard"></i>
+                <router-link to="/home" class="nav-link active">
+                    <i class="nav-icon fa fa-home"></i>
                     <p>
                         Dashboard
                     </p>
@@ -113,12 +113,27 @@
                     </li>
                 </ul>
             </li>
+
             <li class="nav-item">
                 <router-link to="/profile" class="nav-link">
                     <i class="nav-icon fa fa-user"></i>
                     <p>
                         Profile
                     </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/category-list" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+                    <p>Category</p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/post" class="nav-link">
+                    <i class="nav-icon fa fa-pound-sign"></i>
+                    <p>Post</p>
                 </router-link>
             </li>
 
@@ -143,14 +158,15 @@
     <section class="content">
       <!-- Default box -->
         <div class="container-fluid">
-            <router-view></router-view>
+
         </div>
       <div class="card">
         <div class="card-footer">
           <h3 class="card-title">Title</h3>
         </div>
         <div class="card-body">
-          Start creating your amazing application!
+{{--            <adminhome-component></adminhome-component>--}}
+            <admin-main></admin-main>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -163,7 +179,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-    <example-component></example-component>
+{{--    <example-component></example-component>--}}
   <footer class="main-footer">
     <strong>Copyright &copy; 2019 </strong> All rights
     reserved.

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,8 +82,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
-                <router-link to="/home" class="nav-link active">
-                    <i class="nav-icon fa fa-home"></i>
+                <router-link to="/home" class="nav-link ">
+                    <i class="nav-icon fa fa-home orange"></i>
                     <p>
                         Dashboard
                     </p>
@@ -92,7 +91,7 @@
             </li>
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fa fa-cog"></i>
+                    <i class="nav-icon fa fa-cog green"></i>
                     <p>
                         Management
                         <i class="right fa fa-angle-right"></i>
@@ -100,10 +99,10 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <i class="fa fa-circle-o nav-icon"></i>
-                            Active Page
-                        </a>
+                        <router-link to="/users" class="nav-link">
+                            <i class="fa fa-users yellow"></i>
+                            <p>Users</p>
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -116,7 +115,7 @@
 
             <li class="nav-item">
                 <router-link to="/profile" class="nav-link">
-                    <i class="nav-icon fa fa-user"></i>
+                    <i class="nav-icon fa fa-user teal"></i>
                     <p>
                         Profile
                     </p>
@@ -125,25 +124,29 @@
 
             <li class="nav-item">
                 <router-link to="/category-list" class="nav-link">
-                    <i class="nav-icon fa fa-list"></i>
+                    <i class="nav-icon fa fa-list yellow"></i>
                     <p>Category</p>
                 </router-link>
             </li>
 
             <li class="nav-item">
                 <router-link to="/post" class="nav-link">
-                    <i class="nav-icon fa fa-pound-sign"></i>
+                    <i class="nav-icon fa fa-pound-sign cyan"></i>
                     <p>Post</p>
                 </router-link>
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fa fa-power-off"></i>
-                    <p>
-                        Logout
-                    </p>
+                <a class="nav-link" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                     document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fa fa-power-off red"></i>
+                    <p>{{ __('Logout') }}</p>
                 </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
         </ul>
       </nav>

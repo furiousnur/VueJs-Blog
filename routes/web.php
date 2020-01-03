@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/posts', 'PostController@all_post');
 
 Route::get('/{anypath}', 'HomeController@index')->where('path', '.*');
+
+Route::resource('/category', 'CategoryController');

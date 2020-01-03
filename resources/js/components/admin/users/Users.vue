@@ -138,6 +138,7 @@
               })
           }
         },
+        
         methods:{
             createUser(){
                 this.form.post('api/user');

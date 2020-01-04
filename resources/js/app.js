@@ -10,8 +10,28 @@ import moment from "moment";
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
 //end form validation............
+
+
+// Sweetalert start....................
+import swal from 'sweetalert2'
+window.swal = swal;
+
+const toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    onOpen: (toast) => {
+        toast.addEventListener('mouseenter', swal.stopTimer)
+        toast.addEventListener('mouseleave', swal.resumeTimer)
+    }
+});
+
+window.toast = toast;
+
+//end sweetalert....................................
 
 
 //Vue Router......
@@ -19,9 +39,16 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import {routes} from './routes';
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '3px'
+})
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('admin-main', require('./components/admin/AdminMaster.vue').default);
+
 
 const router = new VueRouter({
   routes,// short for `routes: routes`

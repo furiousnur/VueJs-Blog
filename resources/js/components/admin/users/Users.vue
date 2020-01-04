@@ -142,7 +142,15 @@
 
         methods:{
             createUser(){
+                this.$Progress.start();
                 this.form.post('api/user');
+                $('#addNewModal').modal('hide')
+
+                toast.fire({
+                    icon: 'success',
+                    title: 'User Created successfully'
+                })
+                this.$Progress.finish();
             },
 
             loadUser(){

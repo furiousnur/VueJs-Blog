@@ -111,7 +111,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit"  class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>
@@ -141,25 +141,40 @@
         },
 
         methods:{
-            createUser(){
-                this.$Progress.start();
-                this.form.post('api/user');
-                $('#addNewModal').modal('hide')
-
-                toast.fire({
-                    icon: 'success',
-                    title: 'User Created successfully'
-                })
-                this.$Progress.finish();
+            loadUsers(){
+                axios.get("api/user").then(({ data }) => (this.users = data.data)); //by default it's going to index function
             },
 
-            loadUser(){
-                axios.get("api/user").then(({ data }) => (this.users = data.data)); //by default it's going to index function
-            }
+            createUser(){
+                this.$Progress.start();
+                this.form.post('api/user')
+
+                .then(()=>{
+                    Fire.$emit('AfterCreate');
+                    $('#addNewModal').modal('hide')
+
+                    toast.fire({
+                        icon: 'success',
+                        title: 'User Created successfully'
+                    })
+                    this.$Progress.finish();
+                })
+
+                .catch(()=>{
+
+                })
+            },
         },
+
         created(){
-          this.loadUser();
+          this.loadUsers();
+          //use for page load for when needed to laod otherwise not.
+          Fire.$on('AfterCreate',() => {
+             this.loadUsers();
+          });
+          // setInterval(() => this.loadUsers(), 3000);
         },
+
         name: "Users"
     }
 </script>

@@ -2116,27 +2116,38 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    createUser: function createUser() {
-      this.$Progress.start();
-      this.form.post('api/user');
-      $('#addNewModal').modal('hide');
-      toast.fire({
-        icon: 'success',
-        title: 'User Created successfully'
-      });
-      this.$Progress.finish();
-    },
-    loadUser: function loadUser() {
+    loadUsers: function loadUsers() {
       var _this = this;
 
       axios.get("api/user").then(function (_ref) {
         var data = _ref.data;
         return _this.users = data.data;
       }); //by default it's going to index function
+    },
+    createUser: function createUser() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.post('api/user').then(function () {
+        Fire.$emit('AfterCreate');
+        $('#addNewModal').modal('hide');
+        toast.fire({
+          icon: 'success',
+          title: 'User Created successfully'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {});
     }
   },
   created: function created() {
-    this.loadUser();
+    var _this3 = this;
+
+    this.loadUsers(); //use for page load for when needed to laod otherwise not.
+
+    Fire.$on('AfterCreate', function () {
+      _this3.loadUsers();
+    }); // setInterval(() => this.loadUsers(), 3000);
   },
   name: "Users"
 });
@@ -74953,7 +74964,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
 
 Vue.filter('upText', function (text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
-}); //this filter for date time moment......
+});
+window.Fire = new Vue(); //this filter for date time moment......
 
 Vue.filter('myDate', function (created) {
   return moment__WEBPACK_IMPORTED_MODULE_1___default()(created).format('MMMM Do YYYY');

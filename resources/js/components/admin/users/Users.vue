@@ -45,8 +45,11 @@
                                             <span class="badge badge-success">approved</span>
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-primary"><i class="fa fa-edit"></i> <strong>Edit</strong></a>
-                                            <a href="" class="btn btn-primary"><i class="fa fa-trash red">  </i> <strong>Delete</strong></a>
+                                            <a href="" class="btn btn-primary"><i class="fa fa-edit"></i><strong>Edit</strong></a>
+                                            <a href="#" @click="deleteUser(user.id)" class="btn btn-primary">
+                                                <i class="fa fa-trash red"></i>
+                                                <strong>Delete</strong>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -111,7 +114,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit"  class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>
@@ -141,6 +144,32 @@
         },
 
         methods:{
+            deleteUser(id){
+                swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+
+                        //send request to the server
+                    if (result.value) {
+                        this.form.delete('api/user/' + id).then(() => {
+                            swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            Fire.$emit('AfterDelete');
+                        }).catch(() => {
+                            swal("Failed!", "There was something wrong.", "warning");
+                        });
+                    }
+                })
+            },
             loadUsers(){
                 axios.get("api/user").then(({ data }) => (this.users = data.data)); //by default it's going to index function
             },
@@ -170,6 +199,9 @@
           this.loadUsers();
           //use for page load for when needed to laod otherwise not.
           Fire.$on('AfterCreate',() => {
+             this.loadUsers();
+          });
+          Fire.$on('AfterDelete',() => {
              this.loadUsers();
           });
           // setInterval(() => this.loadUsers(), 3000);

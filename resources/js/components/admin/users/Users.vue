@@ -8,13 +8,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Users</h3>
                             <div class="card-tools">
-                                <!--<button class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
-                                    <router-link to="/add-category" style="color: #ffffff;"><i class="fas fa-user-plus"></i>
-                                        <strong>Add User</strong>
-                                    </router-link>
-                                </button>-->
-
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
+                                <button class="btn btn-primary" @click="newModal">
                                     <i class="fas fa-user-plus"></i>
                                         <strong>Add User</strong>
                                 </button>
@@ -45,7 +39,9 @@
                                             <span class="badge badge-success">approved</span>
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-primary"><i class="fa fa-edit"></i><strong>Edit</strong></a>
+                                            <a href="#" @click="editModal(user)" class="btn btn-primary">
+                                                <i class="fa fa-edit"></i><strong>Edit</strong>
+                                            </a>
                                             <a href="#" @click="deleteUser(user.id)" class="btn btn-primary">
                                                 <i class="fa fa-trash red"></i>
                                                 <strong>Delete</strong>
@@ -63,18 +59,19 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-
+        <div class="clearfix"></div>
         <!-- Modal -->
         <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addNewModalLabel">Add New User</h5>
+                        <h5 v-show="!editmode" class="modal-title" id="addNewModalLabel">Add New User</h5>
+                        <h5 v-show="editmode" class="modal-title" id="addNewModalLabel">Update User's Info</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form @submit.prevent="createUser">
+                    <form @submit.prevent="editmode ? updateUser() : createUser()">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input v-model="form.name" type="text" placeholder="Name"
@@ -114,13 +111,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                            <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        
     </div>
     <!-- /.col -->
 </template>
@@ -129,10 +126,12 @@
     export default {
         data(){
           return {
+              editmode:false,
               users:{
 
               },
               form: new Form({
+                  'id': '',
                   name: '',
                   email: '',
                   password: '',
@@ -144,6 +143,17 @@
         },
 
         methods:{
+            editModal(user){
+                this.editmode = true;
+                this.form.reset();
+                $('#addNewModal').modal('show');
+                this.form.fill(user);
+            },
+            newModal(){
+                this.editmode = false;
+                this.form.reset();
+                $('#addNewModal').modal('show');
+            },
             deleteUser(id){
                 swal.fire({
                     title: 'Are you sure?',
@@ -173,7 +183,6 @@
             loadUsers(){
                 axios.get("api/user").then(({ data }) => (this.users = data.data)); //by default it's going to index function
             },
-
             createUser(){
                 this.$Progress.start();
                 this.form.post('api/user')
@@ -181,7 +190,7 @@
                 .then(()=>{
                     Fire.$emit('AfterCreate');
                     $('#addNewModal').modal('hide')
-
+                    $('.modal-backdrop').removeClass('modal-backdrop');
                     toast.fire({
                         icon: 'success',
                         title: 'User Created successfully'
@@ -193,12 +202,34 @@
 
                 })
             },
-        },
 
+            updateUser(){
+                this.$Progress.start();
+                // console.log('edit');
+                this.form.put('api/user/'+this.form.id)
+                .then(()=>{
+                    Fire.$emit('AfterUpdate');
+                    $('#addNewModal').modal('hide')
+                    swal.fire(
+                        'Updated!',
+                        'Information has been updated',
+                        'success'
+                    )
+                    this.$Progress.finish();
+                })
+                .catch(()=>{
+                    this.$Progress.fail();
+                })
+            },
+        },
         created(){
           this.loadUsers();
           //use for page load for when needed to laod otherwise not.
           Fire.$on('AfterCreate',() => {
+             this.loadUsers();
+          });
+
+          Fire.$on('AfterUpdate',() => {
              this.loadUsers();
           });
           Fire.$on('AfterDelete',() => {
@@ -206,7 +237,6 @@
           });
           // setInterval(() => this.loadUsers(), 3000);
         },
-
         name: "Users"
     }
 </script>

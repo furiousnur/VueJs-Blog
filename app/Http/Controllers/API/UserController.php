@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -66,7 +76,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $this->validate($request,[
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|email:rfc|max:191|unique:users,email,'.$id,
+            'password' => 'sometimes|min:8'
+        ]);
+
+        $user->update($request->all());
+
+        return ['messate' => 'Update the user info'];
     }
 
     /**
@@ -77,6 +96,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::findOrFail($id)->delete();
+
+
+        return ['message' => 'User Delete'];
     }
 }

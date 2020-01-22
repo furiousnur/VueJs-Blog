@@ -117,7 +117,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <!-- /.col -->
 </template>
@@ -174,7 +174,6 @@
           });
           // setInterval(() => this.loadUsers(), 3000);
         },
-
         name: "Users"
     }
 </script>

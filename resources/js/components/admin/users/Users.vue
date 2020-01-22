@@ -118,10 +118,6 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 1a60e41db53dc3fd8c4a4271927768d2b87b3af9
     </div>
     <!-- /.col -->
 </template>

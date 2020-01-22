@@ -4,14 +4,12 @@ window.Vue = require('vue');
 //form validation..............
 
 import { Form, HasError, AlertError } from 'vform'
-
 import moment from "moment";
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 //end form validation............
-
 
 // Sweetalert start....................
 import swal from 'sweetalert2'

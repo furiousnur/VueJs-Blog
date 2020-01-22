@@ -37,6 +37,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        dump(\Log::info(print_r($request,true)));
+
         $this->validate($request,[
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|email:rfc|max:191|unique:users',

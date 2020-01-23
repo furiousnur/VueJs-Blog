@@ -16,8 +16,9 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:api');
     }
+
 
     /**
      * Display a listing of the resource.
@@ -37,7 +38,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dump(\Log::info(print_r($request,true)));
+//        dump(\Log::info(print_r($request,true)));
 
         $this->validate($request,[
             'name' => 'required|string|max:191',
@@ -51,7 +52,8 @@ class UserController extends Controller
            'email' => $request['email'],
            'type' => $request['type'],
            'bio' => $request['bio'],
-           'photo' => $request['photo'],
+//           'photo' => $request['photo'],
+           'photo' => "profile.png",
            'password' => bcrypt($request['password']),
         ]);
     }

@@ -1,6 +1,7 @@
 import AdminHome from './components/admin/AdminHome.vue'
 import List from './components/admin/category/List.vue'
 import Users from './components/admin/users/Users.vue'
+import Developer from './components/admin/users/Developer.vue'
 import Profile from './components/admin/users/Profile.vue'
 import Ex from './components/ExampleComponent'
 import AddCategory from './components/admin/category/new.vue'
@@ -27,6 +28,11 @@ export const routes = [
     {
         path: '/users',
         component: Users
+    },
+
+    {
+        path: '/developer',
+        component: Developer
     },
 
     {

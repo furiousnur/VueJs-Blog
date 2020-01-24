@@ -131,7 +131,7 @@
 
               },
               form: new Form({
-                  'id': '',
+                  id: '',
                   name: '',
                   email: '',
                   password: '',

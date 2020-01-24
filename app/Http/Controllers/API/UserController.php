@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\User;
+use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -69,6 +70,25 @@ class UserController extends Controller
         //
     }
 
+    public function profileEdit()
+    {
+        return auth('api')->user();
+    }
+
+    public function updateProfile( Request $request)
+    {
+        $user = auth('api')->user();
+
+        if($request->photo){
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+
+            \Image::make($request->photo)->save(public_path('assets/images/').$name);
+            $request->merge(['photo' => $name]);
+        }
+//        return $request->photo;
+//        return ['Message'=>'Success'];
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -79,6 +99,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
         $this->validate($request,[
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|email:rfc|max:191|unique:users,email,'.$id,
@@ -87,7 +108,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return ['messate' => 'Update the user info'];
+        return ['Message' => 'Update the user info'];
     }
 
     /**
@@ -100,7 +121,6 @@ class UserController extends Controller
     {
         User::findOrFail($id)->delete();
 
-
-        return ['message' => 'User Delete'];
+        return ['Message' => 'User Delete'];
     }
 }

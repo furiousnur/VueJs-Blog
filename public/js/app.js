@@ -2183,7 +2183,7 @@ __webpack_require__.r(__webpack_exports__);
       var limit = 1024 * 1024 * 2;
 
       if (file['size'] > limit) {
-        swal({
+        swal.fire({
           type: 'error',
           title: 'Oops...',
           text: 'You are uploading a large file'
@@ -79337,7 +79337,7 @@ var routes = [
     path: '/dashboard',
     component: require('./components/Dashboard.vue')
 },
- { path: '/profile', component: require('./components/Profile.vue') },
+  { path: '/profile', component: require('./components/Profile.vue') },
 */
 {
   path: '/home',
@@ -79382,8 +79382,8 @@ var routes = [
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/Laravel_VueJs_Blog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Laravel_VueJs_Blog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\VueJs-Blog\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\VueJs-Blog\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

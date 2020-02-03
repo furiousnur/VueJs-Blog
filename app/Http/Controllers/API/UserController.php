@@ -47,7 +47,6 @@ class UserController extends Controller
             'password' => 'required|string|min:8'
         ]);
 
-//      return ['message' => 'i have your data'];
         return User::create([
            'name' => $request['name'],
            'email' => $request['email'],
@@ -79,14 +78,32 @@ class UserController extends Controller
     {
         $user = auth('api')->user();
 
-        if($request->photo){
+        $this->validate($request,[
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|email:rfc|max:191|unique:users,email,'.$request->id,
+            'password' => 'sometimes|required|string|min:8'
+        ]);
+
+        $currentPhoto = $user->photo;
+
+        if($request->photo != $currentPhoto){
             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
 
             \Image::make($request->photo)->save(public_path('assets/images/').$name);
             $request->merge(['photo' => $name]);
+
+            $userPhoto = public_path('assets/images/').$currentPhoto;
+            if (file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
         }
-//        return $request->photo;
-//        return ['Message'=>'Success'];
+
+        if($request->password){
+            $request->merge(['password'=> bcrypt($request->password)]);
+        }
+
+        $user->update($request->all());
+        return ['Message'=>'Success'];
     }
 
     /**

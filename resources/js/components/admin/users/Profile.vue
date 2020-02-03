@@ -213,7 +213,7 @@
                 let reader = new FileReader();
                 let limit = 1024 * 1024 * 2;
                 if(file['size'] > limit){
-                    swal({
+                    swal.fire({
                         type: 'error',
                         title: 'Oops...',
                         text: 'You are uploading a large file',

@@ -73,6 +73,7 @@
         <div class="info">
           <a href="#" class="d-block">
               {{Auth::user()->name}}
+              <p>{{Auth::user()->type}}</p>
           </a>
         </div>
       </div>
@@ -89,6 +90,7 @@
                     </p>
                 </router-link>
             </li>
+            @can('isAdmin')
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fa fa-cog green"></i>
@@ -113,22 +115,11 @@
                 </ul>
             </li>
 
-            @can('isAdmin')
-                <li class="nav-item">
-                    <router-link to="/developer" class="nav-link">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>
-                            Developer
-                        </p>
-                    </router-link>
-                </li>
-            @endcan
-
             <li class="nav-item">
-                <router-link to="/profile" class="nav-link">
-                    <i class="nav-icon fa fa-user teal"></i>
+                <router-link to="/developer" class="nav-link">
+                    <i class="nav-icon fas fa-cogs"></i>
                     <p>
-                        Profile
+                        Developer
                     </p>
                 </router-link>
             </li>
@@ -144,6 +135,17 @@
                 <router-link to="/post" class="nav-link">
                     <i class="nav-icon fa fa-pound-sign cyan"></i>
                     <p>Post</p>
+                </router-link>
+            </li>
+
+            @endcan
+
+            <li class="nav-item">
+                <router-link to="/profile" class="nav-link">
+                    <i class="nav-icon fa fa-user teal"></i>
+                    <p>
+                        Profile
+                    </p>
                 </router-link>
             </li>
 

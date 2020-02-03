@@ -79,6 +79,11 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue').default
 );
 
+Vue.component(
+    'not-found',
+    require('./components/notFound.vue').default
+);
+
 //this filter for date time moment......
 Vue.filter('myDate', function (created) {
     return moment(created).format('MMMM Do YYYY');

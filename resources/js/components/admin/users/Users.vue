@@ -58,6 +58,10 @@
             </div>
             <!-- /.row -->
         </section>
+
+        <div v-if="!$gate.isAdmin()">
+            <not-found></not-found>
+        </div>
         <!-- /.content -->
         <div class="clearfix"></div>
         <!-- Modal -->

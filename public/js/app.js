@@ -2413,10 +2413,13 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var _this2 = this;
 
-      axios.get("api/user").then(function (_ref) {
-        var data = _ref.data;
-        return _this2.users = data.data;
-      }); //by default it's going to index function
+      /*axios.get("api/user").then(({ data }) => (this.users = data.data));*/
+      if (this.$gate.isAdmin()) {
+        axios.get("api/user").then(function (_ref) {
+          var data = _ref.data;
+          return _this2.users = data.data;
+        }); //by default it's going to index function
+      }
     },
     createUser: function createUser() {
       var _this3 = this;
@@ -61814,108 +61817,122 @@ var render = function() {
   return _c("div", [
     _c("section", { staticClass: "content" }, [
       _c("div", { staticClass: "row justify-content-around" }, [
-        _c("div", { staticClass: "col-md-12 col-lg-12 col-sm-12" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("h3", { staticClass: "card-title" }, [_vm._v("Users")]),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.$gate.isAdmin(),
+                expression: "$gate.isAdmin()"
+              }
+            ],
+            staticClass: "col-md-12 col-lg-12 col-sm-12"
+          },
+          [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("Users")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: { click: _vm.newModal }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-user-plus" }),
+                      _vm._v(" "),
+                      _c("strong", [_vm._v("Add User")])
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "card-tools" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c(
-                  "button",
+                  "table",
                   {
-                    staticClass: "btn btn-primary",
-                    on: { click: _vm.newModal }
+                    staticClass: "table table-bordered table-hover",
+                    attrs: { id: "example2" }
                   },
                   [
-                    _c("i", { staticClass: "fas fa-user-plus" }),
+                    _vm._m(0),
                     _vm._v(" "),
-                    _c("strong", [_vm._v("Add User")])
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.users, function(user) {
+                        return _c("tr", { key: user.id }, [
+                          _c("td", [_vm._v(_vm._s(user.id))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(user.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(" " + _vm._s(user.email) + " ")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              " " + _vm._s(_vm._f("upText")(user.type)) + " "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm._f("myDate")(user.created_at)) +
+                                " "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(1, true),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editModal(user)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-edit" }),
+                                _c("strong", [_vm._v("Edit")])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteUser(user.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-trash red" }),
+                                _vm._v(" "),
+                                _c("strong", [_vm._v("Delete")])
+                              ]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
                   ]
                 )
               ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c(
-                "table",
-                {
-                  staticClass: "table table-bordered table-hover",
-                  attrs: { id: "example2" }
-                },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.users, function(user) {
-                      return _c("tr", { key: user.id }, [
-                        _c("td", [_vm._v(_vm._s(user.id))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(user.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" " + _vm._s(user.email) + " ")]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(
-                            " " + _vm._s(_vm._f("upText")(user.type)) + " "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(
-                            " " +
-                              _vm._s(_vm._f("myDate")(user.created_at)) +
-                              " "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(1, true),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.editModal(user)
-                                }
-                              }
-                            },
-                            [
-                              _c("i", { staticClass: "fa fa-edit" }),
-                              _c("strong", [_vm._v("Edit")])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.deleteUser(user.id)
-                                }
-                              }
-                            },
-                            [
-                              _c("i", { staticClass: "fa fa-trash red" }),
-                              _vm._v(" "),
-                              _c("strong", [_vm._v("Delete")])
-                            ]
-                          )
-                        ])
-                      ])
-                    }),
-                    0
-                  )
-                ]
-              )
             ])
-          ])
-        ])
+          ]
+        )
       ])
     ]),
     _vm._v(" "),
@@ -78441,52 +78458,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
-/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _gate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gate */ "./resources/js/gate.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_6__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); //form validation..............
 
 
 
+
+Vue.prototype.$gate = new _gate__WEBPACK_IMPORTED_MODULE_2__["default"](window.user);
 window.Form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"];
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["HasError"]);
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"]); //end form validation............
 // Sweetalert start....................
 
 
-window.swal = sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a;
-var toast = sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.mixin({
+window.swal = sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a;
+var toast = sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
   onOpen: function onOpen(toast) {
-    toast.addEventListener('mouseenter', sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.stopTimer);
-    toast.addEventListener('mouseleave', sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.resumeTimer);
+    toast.addEventListener('mouseenter', sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.stopTimer);
+    toast.addEventListener('mouseleave', sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.resumeTimer);
   }
 });
 window.toast = toast; //end sweetalert....................................
 //Vue Router......
 
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
+Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 
-Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_5___default.a, {
+Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_6___default.a, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '3px'
 });
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('admin-main', __webpack_require__(/*! ./components/admin/AdminMaster.vue */ "./resources/js/components/admin/AdminMaster.vue")["default"]);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  routes: _routes__WEBPACK_IMPORTED_MODULE_4__["routes"],
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]({
+  routes: _routes__WEBPACK_IMPORTED_MODULE_5__["routes"],
   // short for `routes: routes`
   mode: 'history' //vue js has 3 mode, #hasmode, history and another one
 
@@ -79396,6 +79416,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalAccessTokens_vue_vue_type_template_id_49962cc0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalAccessTokens_vue_vue_type_template_id_49962cc0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/gate.js":
+/*!******************************!*\
+  !*** ./resources/js/gate.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Gate; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Gate =
+/*#__PURE__*/
+function () {
+  function Gate(user) {
+    _classCallCheck(this, Gate);
+
+    this.user = user;
+  }
+
+  _createClass(Gate, [{
+    key: "isAdmin",
+    value: function isAdmin() {
+      return this.user.type === 'admin';
+    }
+  }, {
+    key: "isUser",
+    value: function isUser() {
+      return this.user.type === 'user';
+    }
+  }]);
+
+  return Gate;
+}();
 
 
 

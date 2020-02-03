@@ -111,7 +111,7 @@
                         </a>
                     </li>
                 </ul>
-            </li> 
+            </li>
 
             @can('isAdmin')
                 <li class="nav-item">
@@ -179,7 +179,7 @@
           <h3 class="card-title">Title</h3>
         </div>
         <div class="card-body">
-{{--            <adminhome-component></adminhome-component>--}}
+{{-- <adminhome-component></adminhome-component>--}}
             <admin-main></admin-main>
         </div>
         <!-- /.card-body -->
@@ -206,8 +206,14 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-<script src="{{ asset('js/app.js') }}" defer></script>
 
+@auth
+    <script>
+        window.user = @json(auth()->user())
+    </script>
+@endauth
+
+<script src="{{ asset('js/app.js') }}" defer></script>
 <!-- jQuery -->
 <script src="{{asset('dist/js/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->

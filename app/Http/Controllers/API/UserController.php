@@ -18,6 +18,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        //ACL Permission..........
+//        $this->authorize('isAdmin');
     }
 
 
@@ -136,6 +138,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        //ACL Permission..........
+//        $this->authorize('isAdmin');
+
         User::findOrFail($id)->delete();
 
         return ['Message' => 'User Delete'];

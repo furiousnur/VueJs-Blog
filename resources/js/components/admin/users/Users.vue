@@ -3,7 +3,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="row justify-content-around">
-                <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="col-md-12 col-lg-12 col-sm-12" v-show="$gate.isAdmin()">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Users</h3>
@@ -181,7 +181,11 @@
                 })
             },
             loadUsers(){
-                axios.get("api/user").then(({ data }) => (this.users = data.data)); //by default it's going to index function
+                    /*axios.get("api/user").then(({ data }) => (this.users = data.data));*/
+
+                if (this.$gate.isAdmin()){
+                    axios.get("api/user").then(({ data }) => (this.users = data.data)); //by default it's going to index function
+                }
             },
             createUser(){
                 this.$Progress.start();

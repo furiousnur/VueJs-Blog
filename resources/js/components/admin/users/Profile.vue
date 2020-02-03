@@ -196,12 +196,19 @@
 
         methods:{
             getProfilePhoto(){
-              return "assets/images/"+ this.form.photo;
+                let photo = (this.form.photo.length >200) ? this.form.photo : "assets/images/"+this.form.photo;
+                return photo;
+              // return "assets/images/"+ this.form.photo;
             },
             updateInfo(){
                 this.$Progress.start();
                 this.form.put('api/profile-update/')
                       .then(()=>{
+                          Fire.$emit('AfterUpdate');
+                          toast.fire({
+                              icon: 'success',
+                              title: 'User Profile Updated successfully'
+                          })
                           this.$Progress.finish();
                       })
                       .catch(()=>{
@@ -228,6 +235,8 @@
             }
         },
         created(){
+            Fire.$on('AfterUpdate',() => {
+            });
             axios.get("api/profile-edit").then(({ data }) => (this.form.fill(data)));
         },
         name: "Profile"

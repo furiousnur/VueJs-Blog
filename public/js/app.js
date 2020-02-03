@@ -2170,13 +2170,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getProfilePhoto: function getProfilePhoto() {
-      return "assets/images/" + this.form.photo;
+      var photo = this.form.photo.length > 200 ? this.form.photo : "assets/images/" + this.form.photo;
+      return photo; // return "assets/images/"+ this.form.photo;
     },
     updateInfo: function updateInfo() {
       var _this = this;
 
       this.$Progress.start();
       this.form.put('api/profile-update/').then(function () {
+        Fire.$emit('AfterUpdate');
+        toast.fire({
+          icon: 'success',
+          title: 'User Profile Updated successfully'
+        });
+
         _this.$Progress.finish();
       })["catch"](function () {
         _this.$Progress.fail();
@@ -2208,6 +2215,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this3 = this;
 
+    Fire.$on('AfterUpdate', function () {});
     axios.get("api/profile-edit").then(function (_ref) {
       var data = _ref.data;
       return _this3.form.fill(data);
